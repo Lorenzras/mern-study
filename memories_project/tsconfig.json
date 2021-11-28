@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "moduleResolution": "Node",
+    "outDir": "dist",
+    "sourceMap": true,
+    "allowJs": true
+  },
+  "exclude": ["**/*.eslintrc.*"]
+}
