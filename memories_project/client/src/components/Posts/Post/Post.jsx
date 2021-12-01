@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import {
   Card, CardActions, CardContent, CardMedia, Button, Typography,
 } from '@mui/material';
@@ -11,7 +12,7 @@ import PropTypes from 'prop-types';
 
 import useStyles from './styles';
 
-export default function Post({ post = {} }) {
+export default function Post({ post, setCurrentId }) {
   const classes = useStyles();
 
   return (
@@ -22,7 +23,7 @@ export default function Post({ post = {} }) {
         <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
       </div>
       <div className={classes.overlay2}>
-        <Button style={{ color: 'white' }} size="sm" onClick={() => {}}>
+        <Button style={{ color: 'white' }} size="sm" onClick={() => setCurrentId(post._id)}>
           <MoreHoriz fontSize="default" />
         </Button>
       </div>
@@ -32,7 +33,7 @@ export default function Post({ post = {} }) {
       <CardContent>
         <Typography className={classes.title} variant="h5" gutterBottom>{post.message}</Typography>
       </CardContent>
-      <CardContent className={classes.cardActions}>
+      <CardActions className={classes.cardActions}>
         <Button size="small" color="primary" onClick={() => {}}>
           <ThumbUpAltIcon fontSize="small" />
           Like
@@ -43,11 +44,12 @@ export default function Post({ post = {} }) {
           Delete
           {post.likeCount}
         </Button>
-      </CardContent>
+      </CardActions>
     </Card>
   );
 }
 
 Post.propTypes = {
   post: PropTypes.objectOf(PropTypes.string).isRequired,
+  setCurrentId: PropTypes.func.isRequired,
 };

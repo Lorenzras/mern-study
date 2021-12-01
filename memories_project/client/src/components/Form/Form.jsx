@@ -1,13 +1,19 @@
+/* eslint-disable no-underscore-dangle */
 import {
   TextField, Button, Typography, Paper,
 } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FileBase from 'react-file-base64';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import useStyles from './styles';
-import { createPost } from '../../actions/posts';
+import { createPost, updatePost } from '../../actions/posts';
 
-export default function Form() {
+export default function Form({ currentId, setCurrentId }) {
+  const post = useSelector(
+    (state) => (currentId ? state.posts.find((p) => p._id === currentId) : null),
+  );
+
   const [postData, setPostData] = useState({
     creator: '',
     title: '',
@@ -15,12 +21,21 @@ export default function Form() {
     tags: '',
     selectedFile: '',
   });
+
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
+
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPost(postData));
+    if (currentId) {
+      dispatch(updatePost(currentId, postData));
+    } else {
+      dispatch(createPost(postData));
+    }
   };
 
   const clear = () => {
@@ -50,3 +65,8 @@ export default function Form() {
     </Paper>
   );
 }
+
+Form.propTypes = {
+  currentId: PropTypes.string.isRequired,
+  setCurrentId: PropTypes.func.isRequired,
+};

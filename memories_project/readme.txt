@@ -1,0 +1,1 @@
+open workspace on memories project folder.
