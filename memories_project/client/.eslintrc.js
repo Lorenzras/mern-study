@@ -23,7 +23,8 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
-    indent: ['error', 2],
+    indent: ['off'],
+    '@typescript-eslint/indent': ['error', 2],
     'react/function-component-definition': [
       2,
       {

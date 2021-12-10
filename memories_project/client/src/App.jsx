@@ -1,6 +1,7 @@
-/* eslint-disable no-unused-vars */
 import {
   Container, AppBar, Typography, Grow, Grid,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 
 import { useEffect, useState } from 'react';
@@ -15,12 +16,14 @@ import useStyles from './styles';
 
 export default function App() {
   const [currentId, setCurrentId] = useState(null);
+  const theme = useTheme();
+  const isSmallDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const classes = useStyles();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getPosts());
-  }, [dispatch]);
+  }, [currentId, dispatch]);
 
   return (
     <Container>
@@ -30,11 +33,16 @@ export default function App() {
           Memories
           <img className={classes.image} src={memories} alt="memories" height="60" />
         </Typography>
-
       </AppBar>
       <Grow in>
         <Container>
-          <Grid container justifyContent="space-between" alignContent="stretch" spacing={2}>
+          <Grid
+            container
+            justifyContent="space-between"
+            alignContent="stretch"
+            spacing={2}
+            direction={isSmallDevice ? 'column-reverse' : 'row'}
+          >
             <Grid item xs={12} sm={7}>
               <Posts {...{ setCurrentId }} />
             </Grid>
