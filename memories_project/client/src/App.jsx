@@ -1,59 +1,23 @@
 import {
-  Container, AppBar, Typography, Grow, Grid,
-  useMediaQuery,
-  useTheme,
+  Container, Switch,
 } from '@mui/material';
 
-import { useEffect, useState } from 'react';
-
-import { useDispatch } from 'react-redux';
-
-import { getPosts } from './actions/posts';
-import memories from './images/memories.jpg';
-import Posts from './components/Posts/Posts';
-import Form from './components/Form/Form';
-import useStyles from './styles';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Navbar from './components/Navbar/Navbar';
+import Home from './components/Home/Home';
 
 export default function App() {
-  const [currentId, setCurrentId] = useState(null);
-  const theme = useTheme();
-  const isSmallDevice = useMediaQuery(theme.breakpoints.down('sm'));
-  const classes = useStyles();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
-
   return (
-    <Container>
+    <BrowserRouter>
+      <Container maxWidth="lg">
+        <Navbar />
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/" component={Auth} />
+        </Switch>
 
-      <AppBar className={classes.appBar} position="static" color="inherit">
-        <Typography className={classes.heading} variant="h2" align="center">
-          Memories
-          <img className={classes.image} src={memories} alt="memories" height="60" />
-        </Typography>
-      </AppBar>
-      <Grow in>
-        <Container>
-          <Grid
-            container
-            justifyContent="space-between"
-            alignContent="stretch"
-            spacing={2}
-            direction={isSmallDevice ? 'column-reverse' : 'row'}
-          >
-            <Grid item xs={12} sm={7}>
-              <Posts {...{ setCurrentId }} />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Form {...{ currentId, setCurrentId }} />
-            </Grid>
-          </Grid>
-        </Container>
-      </Grow>
-      <h1>App</h1>
-    </Container>
-
+        <Home />
+      </Container>
+    </BrowserRouter>
   );
 }
