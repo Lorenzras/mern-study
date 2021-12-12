@@ -1,7 +1,7 @@
 import { makeStyles } from '@mui/styles';
 import { deepPurple } from '@mui/material/colors';
 
-export default makeStyles((theme) => ({
+export default makeStyles(() => ({
   appBar: {
     borderRadius: 15,
     margin: '30px 0',

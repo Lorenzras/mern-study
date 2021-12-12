@@ -1,22 +1,22 @@
 import {
-  Container, Switch,
+  Container,
 } from '@mui/material';
 
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Home from './components/Home/Home';
+import Auth from './components/Auth/Auth';
 
 export default function App() {
   return (
     <BrowserRouter>
       <Container maxWidth="lg">
         <Navbar />
-        <Switch>
-          <Route path="/" component={Home} />
-          <Route path="/" component={Auth} />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/auth" element={<Auth />} />
+        </Routes>
 
-        <Home />
       </Container>
     </BrowserRouter>
   );

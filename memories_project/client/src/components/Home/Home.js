@@ -1,7 +1,7 @@
 import {
-  Grow, Container, Grid, useMediaQuery,
+  Grow, Container, Grid,
 } from '@mui/material';
-import { useTheme } from '@mui/styles';
+
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Posts from '../Posts/Posts';
@@ -9,7 +9,7 @@ import Form from '../Form/Form';
 import { getPosts } from '../../actions/posts';
 
 export default function Home() {
-  const [currentId, setCurrentId] = useState(null);
+  const [currentId, setCurrentId] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -17,8 +17,6 @@ export default function Home() {
     dispatch(getPosts());
   }, [currentId, dispatch]);
 
-  const theme = useTheme();
-  const isSmallDevice = useMediaQuery(theme.breakpoints.down('sm'));
   return (
     <Grow in>
       <Container>
@@ -27,7 +25,7 @@ export default function Home() {
           justifyContent="space-between"
           alignContent="stretch"
           spacing={2}
-          direction={isSmallDevice ? 'column-reverse' : 'row'}
+          direction="row"
         >
           <Grid item xs={12} sm={7}>
             <Posts {...{ setCurrentId }} />
