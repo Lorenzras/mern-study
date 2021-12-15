@@ -5,6 +5,8 @@ import {
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import GoogleLogin from 'react-google-login';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import useStyles from './styles';
 import Input from './Input';
 import Icon from './Icon';
@@ -13,6 +15,8 @@ export default function Auth() {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
 
@@ -34,6 +38,14 @@ export default function Auth() {
   // Configure at https://console.cloud.google.com/
 
   const googleSuccess = async (res) => {
+    const result = res?.profileObj;
+    const token = res?.tokenId;
+    try {
+      dispatch({ type: 'AUTH', data: { result, token } });
+      navigate('/'); // In react-router-dom v6 useHistory() is replaced by useNavigate().
+    } catch (error) {
+      console.log(error);
+    }
     console.log(res);
   };
   const googleFailure = (error) => {
