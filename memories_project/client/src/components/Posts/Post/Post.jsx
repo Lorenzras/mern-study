@@ -21,7 +21,7 @@ export default function Post({ post, setCurrentId }) {
     <Card className={classes.card}>
       <CardMedia className={classes.media} image={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} title={post.title} />
       <div className={classes.overlay}>
-        <Typography variant="h6">{post.creator}</Typography>
+        <Typography variant="h6">{post.name}</Typography>
         <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
       </div>
       <div className={classes.overlay2}>
@@ -40,7 +40,7 @@ export default function Post({ post, setCurrentId }) {
         <Button size="small" color="primary" onClick={() => dispatch(likePost(post._id))}>
           <ThumbUpAltIcon fontSize="small" />
           &nbsp;
-          {` Like ${post.likeCount}`}
+          {` Like ${post.likes.length}`}
         </Button>
         <Button size="small" color="primary" onClick={() => dispatch(deletePost(post._id))}>
           <DeleteIcon fontSize="small" />

@@ -31,7 +31,8 @@ export default function Auth() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (signup) {
+    console.log(formData, isSignUp, 'hello');
+    if (isSignUp) {
       dispatch(signup(formData, navigate));
     } else {
       dispatch(signin(formData, navigate));
@@ -47,6 +48,7 @@ export default function Auth() {
   };
 
   const switchMode = () => {
+    setFormData(initialState);
     setIsSignUp((prev) => !prev);
     handleShowPassword(false);
   };

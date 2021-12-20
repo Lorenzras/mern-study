@@ -4,8 +4,10 @@ import {
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import jwtDecode from 'jwt-decode';
 import memories from '../../images/memories.jpg';
 import useStyles from './styles';
+import { LOGOUT } from '../../constants/actionTypes';
 
 export default function Navbar() {
   const classes = useStyles();
@@ -15,8 +17,8 @@ export default function Navbar() {
   const location = useLocation();
 
   const logout = () => {
-    dispatch({ type: 'LOGOUT' });
-    navigate('./');
+    dispatch({ type: LOGOUT });
+    navigate('/auth');
     setUser(null);
   };
 
@@ -24,11 +26,16 @@ export default function Navbar() {
 
   useEffect(() => {
     const token = user?.token;
+    if (token) {
+      const decodedToken = jwtDecode(token);
 
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    }
     // JWT
     setUser(JSON.parse(localStorage.getItem('profile')));
   }, [location]);
 
+  console.log('useresukt', user, user?.result);
   return (
 
     <AppBar className={classes.appBar} position="static" color="inherit">
@@ -40,7 +47,7 @@ export default function Navbar() {
         <img className={classes.image} src={memories} alt="memories" height="60" />
       </div>
       <Toolbar className={classes.toolbar}>
-        {user ? (
+        {user?.result ? (
           <div className={classes.profile}>
             <Avatar
               className={classes.purple}
